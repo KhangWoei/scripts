@@ -2,9 +2,14 @@
 
 script_dir=$( cd -- "$( dirname -- "${BASH_SOURCE[0]}" )" &> /dev/null && pwd )
 
-mapfile -t scripts < <(find "${script_dir}" -iname "*.sh" -type f)
+mapfile -t scripts < <(find "${script_dir}/src" -iname "*.sh" -type f)
 
 for script in "${scripts[@]}";
 do
-    ln -s "${script}" ~/.bin/$(basename ${script})
+    script_link="${HOME}/.bin/$(basename ${script})"
+
+    if [ ! -f "${script_link}" ]; then
+        echo "Creating soft link ${script_link}"
+        ln -s "${script}" "${script_link}"
+    fi
 done
