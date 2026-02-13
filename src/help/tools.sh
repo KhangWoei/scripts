@@ -1,4 +1,6 @@
 #!/bin/bash
+# @name: help-tools
+# @desc: Lists useful system monitoring tools and their descriptions
 
 declare -A tools 
 

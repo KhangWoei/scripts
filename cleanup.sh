@@ -6,7 +6,8 @@ mapfile -t scripts < <(find "${script_dir}/src" -iname "*.sh" -type f)
 
 for script in "${scripts[@]}"
 do
-    script_link="${HOME}/.bin/$(basename ${script})"
+    dir_name="$(basename "$(dirname "${script}")")"
+    script_link="${HOME}/.bin/${dir_name}-$(basename "${script}")"
 
     if [ -f "${script_link}" ]; then
         echo "Removing ${script_link}"
