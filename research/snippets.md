@@ -79,3 +79,65 @@ fi
 ```
 
 `EUID` is a bash builtin variable containing the effective user ID. Cleaner than parsing `whoami` or `id` output.
+
+## Parameter expansion
+
+### Strip prefix
+
+```bash
+path="/home/khang/scripts"
+echo "${path#*/}"          # home/khang/scripts  (shortest match)
+echo "${path##*/}"         # scripts             (longest match)
+```
+
+- `${var#pattern}` — removes the shortest match of `pattern` from the **start**
+- `${var##pattern}` — removes the longest match of `pattern` from the **start**
+
+The `#` itself is the operator, so to match a literal `#` in the pattern, escape it: `${line#\# @name: }`.
+
+### Strip suffix
+
+```bash
+file="backup.tar.gz"
+echo "${file%.*}"          # backup.tar          (shortest match)
+echo "${file%%.*}"         # backup              (longest match)
+```
+
+- `${var%pattern}` — removes the shortest match of `pattern` from the **end**
+- `${var%%pattern}` — removes the longest match of `pattern` from the **end**
+
+### Substitution
+
+```bash
+msg="hello world"
+echo "${msg/world/bash}"   # hello bash          (first match)
+echo "${msg//l/L}"         # heLLo worLd         (all matches)
+```
+
+- `${var/pattern/replacement}` — replaces the first match
+- `${var//pattern/replacement}` — replaces all matches
+
+### Substring
+
+```bash
+str="abcdefgh"
+echo "${str:2:3}"          # cde                 (offset 2, length 3)
+echo "${str:4}"            # efgh                (offset 4 to end)
+```
+
+### Length
+
+```bash
+str="hello"
+echo "${#str}"             # 5
+```
+
+### Case conversion
+
+```bash
+str="Hello World"
+echo "${str,,}"            # hello world         (all lowercase)
+echo "${str^^}"            # HELLO WORLD         (all uppercase)
+echo "${str,}"             # hello World         (first char lowercase)
+echo "${str^}"             # Hello World         (first char uppercase)
+```
