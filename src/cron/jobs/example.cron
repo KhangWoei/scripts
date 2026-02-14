@@ -1,0 +1,4 @@
+# Example cronjob definition
+# Format: minute hour day month weekday command
+#
+# 0 * * * * /home/khang/.bin/some-script
