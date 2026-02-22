@@ -10,7 +10,7 @@ filter="${1:-all}"
 apply_timers() {
     local label="$1"
     local dir="$2"
-    local scope="$3"
+    local use_sudo="$3"
 
     if [ ! -d "${dir}" ]; then
         echo "No ${label,,} timers directory found at ${dir}"
@@ -19,7 +19,10 @@ apply_timers() {
 
     local found=false
     for subdir in "${dir}"/*/; do
-        [ -d "${subdir}" ] || continue
+        if [ ! -d "${subdir}" ]; then
+           continue
+        fi
+
         local name
         name="$(basename "${subdir}")"
         local timer_file="${subdir}/${name}.timer"
@@ -49,18 +52,18 @@ apply_timers() {
             continue
         fi
 
-        if [ "${scope}" = "user" ]; then
-            local dest="${HOME}/.config/systemd/user"
-            mkdir -p "${dest}"
-            cp "${timer_file}" "${dest}/"
-            cp "${service_file}" "${dest}/"
-            systemctl --user daemon-reload
-            systemctl --user enable --now "${name}.timer"
-        else
-            sudo cp "${timer_file}" /etc/systemd/system/
-            sudo cp "${service_file}" /etc/systemd/system/
+        if [ "${use_sudo}" = "true" ]; then
+            sudo ln -sf "${timer_file}" /etc/systemd/system/"${name}.timer"
+            sudo ln -sf "${service_file}" /etc/systemd/system/"${name}.service"
             sudo systemctl daemon-reload
             sudo systemctl enable --now "${name}.timer"
+        else
+            local dest="${HOME}/.config/systemd/user"
+            mkdir -p "${dest}"
+            ln -sf "${timer_file}" "${dest}/${name}.timer"
+            ln -sf "${service_file}" "${dest}/${name}.service"
+            systemctl --user daemon-reload
+            systemctl --user enable --now "${name}.timer"
         fi
 
         echo "${name} installed and enabled."
@@ -74,15 +77,15 @@ apply_timers() {
 
 case "$filter" in
     user)
-        apply_timers "USER" "${timers_dir}/user" "user"
+        apply_timers "USER" "${timers_dir}/user" "false"
         ;;
     system)
-        apply_timers "SYSTEM" "${timers_dir}/system" "system"
+        apply_timers "SYSTEM" "${timers_dir}/system" "true"
         ;;
     all)
-        apply_timers "USER" "${timers_dir}/user" "user"
+        apply_timers "USER" "${timers_dir}/user" "false"
         echo ""
-        apply_timers "SYSTEM" "${timers_dir}/system" "system"
+        apply_timers "SYSTEM" "${timers_dir}/system" "true"
         ;;
     *)
         echo "Usage: systemd-apply [user|system|all]"
