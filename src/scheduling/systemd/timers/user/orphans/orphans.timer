@@ -1,0 +1,12 @@
+# @name: orphans
+# @desc: Logs orphaned packages to ~/.cache/orphans.log for review
+# @schedule: Weekly on Sunday 5am
+[Unit]
+Description=Check for orphaned packages weekly
+
+[Timer]
+OnCalendar=Sun *-*-* 05:00:00
+Persistent=true
+
+[Install]
+WantedBy=timers.target

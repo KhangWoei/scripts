@@ -1,0 +1,6 @@
+[Unit]
+Description=Remove files in ~/.cache not accessed in 30 days
+
+[Service]
+Type=oneshot
+ExecStart=/usr/bin/find %h/.cache -type f -atime +30 -delete

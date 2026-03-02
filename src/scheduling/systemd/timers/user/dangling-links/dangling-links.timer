@@ -1,0 +1,12 @@
+# @name: dangling-links
+# @desc: Checks for dangling symlinks in systemd user units and ~/.bin
+# @schedule: Weekly on Sunday 5am
+[Unit]
+Description=Check for dangling symlinks weekly
+
+[Timer]
+OnCalendar=Sun *-*-* 05:00:00
+Persistent=true
+
+[Install]
+WantedBy=timers.target

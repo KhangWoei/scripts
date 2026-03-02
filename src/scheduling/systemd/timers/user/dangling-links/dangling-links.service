@@ -1,0 +1,6 @@
+[Unit]
+Description=Log dangling symlinks in systemd units and ~/.bin
+
+[Service]
+Type=oneshot
+ExecStart=/usr/bin/bash -c 'mkdir -p %h/.cache/custom && find %h/.config/systemd/user /etc/systemd/system %h/.bin -maxdepth 1 -xtype l 2>/dev/null > %h/.cache/custom/dangling-links.log'

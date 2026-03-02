@@ -1,0 +1,12 @@
+# @name: mirrors
+# @desc: Updates pacman mirrorlist with fastest AU mirrors via reflector
+# @schedule: Monthly on the 1st at 2am
+[Unit]
+Description=Update pacman mirrorlist monthly
+
+[Timer]
+OnCalendar=*-*-01 02:00:00
+Persistent=true
+
+[Install]
+WantedBy=timers.target

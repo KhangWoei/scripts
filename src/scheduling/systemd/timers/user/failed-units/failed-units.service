@@ -1,0 +1,6 @@
+[Unit]
+Description=Log failed systemd units to ~/.cache/failed-units.log
+
+[Service]
+Type=oneshot
+ExecStart=/usr/bin/bash -c 'mkdir -p %h/.cache/custom && systemctl --failed --no-pager > %h/.cache/custom/failed-units.log 2>&1'

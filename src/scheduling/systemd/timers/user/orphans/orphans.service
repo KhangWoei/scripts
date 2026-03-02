@@ -1,0 +1,6 @@
+[Unit]
+Description=Log orphaned packages to ~/.cache/orphans.log
+
+[Service]
+Type=oneshot
+ExecStart=/usr/bin/bash -c 'mkdir -p %h/.cache/custom && pacman -Qdt > %h/.cache/custom/orphans.log'

@@ -1,0 +1,6 @@
+[Unit]
+Description=Clean pacman package cache, keep last 3 versions
+
+[Service]
+Type=oneshot
+ExecStart=/usr/bin/paccache -r

@@ -1,0 +1,6 @@
+[Unit]
+Description=Update pacman mirrorlist with fastest AU mirrors
+
+[Service]
+Type=oneshot
+ExecStart=/usr/bin/reflector --age 12 --protocol https --sort rate --save /etc/pacman.d/mirrorlist

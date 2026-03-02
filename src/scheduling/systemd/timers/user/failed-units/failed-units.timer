@@ -1,0 +1,12 @@
+# @name: failed-units
+# @desc: Logs any failed systemd units to ~/.cache/failed-units.log
+# @schedule: Daily at 6am
+[Unit]
+Description=Check for failed systemd units daily
+
+[Timer]
+OnCalendar=*-*-* 06:00:00
+Persistent=true
+
+[Install]
+WantedBy=timers.target

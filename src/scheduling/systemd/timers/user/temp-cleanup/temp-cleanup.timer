@@ -1,0 +1,12 @@
+# @name: temp-cleanup
+# @desc: Removes files in ~/.cache not accessed in 30 days
+# @schedule: Weekly on Sunday 4am
+[Unit]
+Description=Clean stale cache files weekly
+
+[Timer]
+OnCalendar=Sun *-*-* 04:00:00
+Persistent=true
+
+[Install]
+WantedBy=timers.target

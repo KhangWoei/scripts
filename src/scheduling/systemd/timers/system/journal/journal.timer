@@ -1,0 +1,12 @@
+# @name: journal
+# @desc: Cleans systemd journal logs older than 2 weeks
+# @schedule: Weekly on Sunday 2am
+[Unit]
+Description=Clean old journal logs weekly
+
+[Timer]
+OnCalendar=Sun *-*-* 02:00:00
+Persistent=true
+
+[Install]
+WantedBy=timers.target

@@ -1,0 +1,12 @@
+# @name: package-cache
+# @desc: Cleans pacman package cache, keeps last 3 versions
+# @schedule: Weekly on Sunday 3am
+[Unit]
+Description=Clean pacman package cache weekly
+
+[Timer]
+OnCalendar=Sun *-*-* 03:00:00
+Persistent=true
+
+[Install]
+WantedBy=timers.target

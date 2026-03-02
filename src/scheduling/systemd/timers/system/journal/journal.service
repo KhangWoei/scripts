@@ -1,0 +1,6 @@
+[Unit]
+Description=Clean systemd journal logs older than 2 weeks
+
+[Service]
+Type=oneshot
+ExecStart=/usr/bin/journalctl --vacuum-time=2w
